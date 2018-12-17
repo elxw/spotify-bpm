@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spotify</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!-- Bulma Version 0.7.2-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/bulma-modal-fx/dist/css/modal-fx.min.css" />
+
+    <style>
+      h1 {
+        color: white;
+      }
+
+      td {
+        color: black;
+      }
+
+   </style>
+  </head>
+  <body>
+    
+    <section class="hero is-info is-small">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <p class="title">
+            Tracks by BPM
+          </p>
+        </div>
+        <br>
+        <div class="container">
+          <form>
+            <div class="field is-grouped is-grouped-centered">
+              <div class="control">
+                <input class="input" type="text" id="lower" placeholder="Lower">
+              </div>
+              <p class="control">
+                <a class="button is-info">
+                  to
+                </a>
+              </p>
+              <div class="control">
+                <input class="input" type="text" id="upper" placeholder="Upper">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="container is-centered">
+      <div class="column" style="margin-top:10px;">
+        <table align="center" class="table is-striped is-hoverable" id="tracks">
+          {% for t in tracks %}
+          <tr>
+            <td>{{ t.name }}</td>
+            <td>{{ t.artist }}</td>
+            <td>{{ t.tempo }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </section>
+
+
+  {% load static %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+    var $rows = $('#tracks tr');
+    $('#lower').keyup(function() {
+        var val = parseInt($.trim($(this).val()).replace(/ +/g, ' '), 10);
+        var upper = $('#upper').val();
+        if (upper == "") { upper = "10000"; }
+        console.log("upper =" + upper);
+        console.log("lower = " + val);
+        $rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, ' ').trim();
+            var text_arr = text.split(/(\s+)/);
+            var bpm = parseInt(text_arr.slice(-1)[0], 10);
+            // filter so backward
+            return (bpm < val || bpm > parseInt(upper, 10));
+        }).hide();
+    });
+
+    var $rows = $('#tracks tr');
+    $('#upper').keyup(function() {
+        var val = parseInt($.trim($(this).val()).replace(/ +/g, ' ').toLowerCase(), 10);
+        var lower = $('#lower').val();
+        if (lower == "") { lower = "-10000"; }
+        console.log("lower = " + lower);
+        console.log("upper = " + val);
+        $rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, ' ').trim();
+            var text_arr = text.split(/(\s+)/);
+            var bpm = parseInt(text_arr.slice(-1)[0], 10);
+            return (bpm > val || bpm < parseInt(lower, 10));
+        }).hide();
+    });
+  </script>
+
+  </body>
+</html>

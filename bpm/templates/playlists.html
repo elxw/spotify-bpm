@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spotify</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+    html,
+    body {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body {
+      background-color: #1e1e1e;
+      font-family: Helvetica;
+    }
+
+    h1 {
+      color: #1c1c1c;
+    }
+
+   </style>
+  </head>
+  <body>
+
+     <section class="container">
+      <div class="columns features" style="overflow:scroll;">
+  
+        {% for p in playlists %}
+        <div class="column is-4">
+          <div class="card is-rounded is-shady">
+            <div class="card-image">
+              <figure class="image is-1by1">
+                <a href="/analyze/{{ p.playlistId }}"> <img src="{{ p.imageUrl }}" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <h4>{{ p.name }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      
+      </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

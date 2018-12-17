@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spotify</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+
+    <style>
+    html,
+    body {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body {
+      background-color: #1e1e1e;
+      font-family: Helvetica;
+    }
+
+    h1 {
+      color: #1c1c1c;
+    }
+    .card.is-wide {
+      width: 500px;
+    }
+   </style>
+  </head>
+  <body>
+    <div class="card is-rounded is-wide">
+      <div class="card-content">
+        <form method="POST" action="{% url 'playlist' %}">
+          {% csrf_token %}
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input class="input" type="text" name="username" placeholder="Username">
+            </div>
+          </div>
+
+          <div class="field">
+            <p class="control">
+              <button class="button is-link" type="submit">
+                Submit
+              </button>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>
