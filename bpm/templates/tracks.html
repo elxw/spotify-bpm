@@ -12,24 +12,21 @@
     <link rel="stylesheet" href="https://unpkg.com/bulma-modal-fx/dist/css/modal-fx.min.css" />
 
     <style>
-      h1 {
-        color: white;
-      }
+      .image img { height: 100%; object-fit: cover; }
 
-      td {
-        color: black;
+      .center {
+        margin: auto;
+        width: 100%;
       }
 
    </style>
   </head>
   <body>
     
-    <section class="hero is-info is-small">
+    <section class="hero is-primary is-small is-bold">
       <div class="hero-body">
         <div class="container has-text-centered">
-          <p class="title">
-            Tracks by BPM
-          </p>
+          <p class="title"> Tracks by BPM </p>
         </div>
         <br>
         <div class="container">
@@ -39,9 +36,7 @@
                 <input class="input" type="text" id="lower" placeholder="Lower">
               </div>
               <p class="control">
-                <a class="button is-info">
-                  to
-                </a>
+                <a class="button is-primary is-inverted is-outlined"> to </a>
               </p>
               <div class="control">
                 <input class="input" type="text" id="upper" placeholder="Upper">
@@ -52,9 +47,28 @@
       </div>
     </section>
 
+    <div class="columns" style="margin-top: 10px;">
+      <div class="column is-one-third">
+        <div class="center" style="width:300px; height:200px; ">
+          <div class="card is-rounded" style="margin-left: 20px; margin-top: 10px;">
+            <div class="card-image">
+              <figure class="image is-256x256 center playlist-img">
+                <a href="#"> <img src="{{ playlist.imageUrl }}" alt="Playlist image"></a>
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <h2 style="text-align: center;">{{ playlist.name }}</h2>
+                <div class="control">
+                  <a class="button is-outlined is-fullwidth" href="/playlist">Home</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <section class="container is-centered">
-      <div class="column" style="margin-top:10px;">
+      <div class="column is-half">
         <table align="center" class="table is-striped is-hoverable" id="tracks">
           {% for t in tracks %}
           <tr>
@@ -65,7 +79,10 @@
           {% endfor %}
         </table>
       </div>
-    </section>
+
+      <div class="column">
+      </div>
+    </div>
 
 
   {% load static %}
