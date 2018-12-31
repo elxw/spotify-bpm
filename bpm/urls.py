@@ -6,4 +6,6 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('playlist', views.getPlaylist, name="playlist"),
     url(r'analyze/(?P<playlistId>[-.\w]+)/$', views.analyze, name="analyze"),
+    url(r'refresh/(?P<playlistId>[-.\w]+)/$', views.refresh, name="refresh"),
+
 ]

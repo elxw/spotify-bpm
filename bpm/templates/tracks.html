@@ -59,8 +59,11 @@
             <div class="card-content">
               <div class="content">
                 <h2 style="text-align: center;">{{ playlist.name }}</h2>
-                <div class="control">
-                  <a class="button is-outlined is-fullwidth" href="/playlist">Home</a>
+                <div class="field is-grouped">
+                  <a class="button is-light is-fullwidth" href="/">Home</a>
+                </div>
+                <div class="field is-grouped">
+                  <a class="button is-light is-fullwidth" href="/refresh/{{ playlist.playlistId }}">Refresh Playlist</a>
                 </div>
               </div>
             </div>

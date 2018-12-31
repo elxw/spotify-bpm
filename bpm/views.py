@@ -7,6 +7,7 @@ import spotipy
 import spotipy.util as util
 import urllib.request
 import requests
+import json
 
 
 from .models import Playlist, Track
@@ -16,16 +17,21 @@ username = ""
 sp = None
 
 def home(request):
-  return render(request, 'home.html', {})
+  if 'username' not in request.session or request.session['username'] == "":
+    return render(request, 'home.html', {})
+  return redirect(reverse('playlist'))
 
 def getPlaylist(request):
   global username
   global sp
-  if 'username' not in request.session:
+
+  if request.method == "POST":
+    request.session['username'] = request.POST['username']
+  
+  if 'username' not in request.session or request.session['username'] == "":
     return redirect(reverse('home'))
   
   username = request.session['username']
-  request.session['username'] = username
   scope = 'playlist-read-private'
   token = util.prompt_for_user_token(username, scope, os.environ['CLIENT_ID'], os.environ['CLIENT_SECRET'],redirect_uri='http://127.0.0.1:8000/')
   sp = spotipy.Spotify(auth=token)
@@ -33,13 +39,20 @@ def getPlaylist(request):
   playlists = []
   results = sp.current_user_playlists(limit=50, offset=0)
   for item in results['items']:
-    if (Playlist.objects.filter(playlistId=item['id']).count() == 0):
-      p = Playlist(name=item['name'], imageUrl=item['images'][0]['url'], playlistId=item['id'])
+    if True: #(Playlist.objects.filter(playlistId=item['id']).count() == 0):
+      p = Playlist(name=item['name'], imageUrl=item['images'][0]['url'], playlistId=item['id'], owner=item['owner']['display_name'], numTracks=item['tracks']['total'])
       p.save()
     else:
       p = Playlist.objects.get(playlistId=item['id'])
-    playlists.append(p)
-  return render(request, 'playlists.html', {'playlists': playlists})
+    if (p.owner == 'Spotify'): 
+      playlists.append((p, float("inf") - p.numTracks))
+    elif (p.owner == username): 
+      playlists.append((p, -1 * p.numTracks))
+    else:
+      playlists.append((p, p.numTracks))
+  playlists.sort(key=lambda x: x[1])
+  playlists = [x[0] for x in playlists]
+  return render(request, 'playlists.html', {'playlists': playlists, 'user': username})
 
 def show_tracks(request, tracks, playlistId):
   filteredTracks = []
@@ -79,6 +92,12 @@ def analyze(request, playlistId):
 
   filteredTracks.sort(key=lambda x: x.tempo)
   return render(request, 'tracks.html', {'tracks': filteredTracks, 'playlist': playlist})
+
+def refresh(request, playlistId):
+  global username
+  playlist = Playlist.objects.get(playlistId=playlistId)
+  playlist.tracks.clear()
+  return redirect(reverse('analyze', args=(playlistId,)))
 
 
 def goals(request):
