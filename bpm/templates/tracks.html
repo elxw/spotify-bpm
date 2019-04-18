@@ -23,7 +23,7 @@
   </head>
   <body>
     
-    <section class="hero is-primary is-small is-bold">
+    <section class="hero is-dark is-small is-bold">
       <div class="hero-body">
         <div class="container has-text-centered">
           <p class="title"> Tracks by BPM </p>
@@ -33,13 +33,13 @@
           <form>
             <div class="field is-grouped is-grouped-centered">
               <div class="control">
-                <input class="input" type="text" id="lower" placeholder="Lower">
+                <input class="input" style="width:100px" type="text" id="lower" placeholder="Lower">
               </div>
               <p class="control">
-                <a class="button is-primary is-inverted is-outlined"> to </a>
+                <a class="button is-dark is-inverted is-outlined"> to </a>
               </p>
               <div class="control">
-                <input class="input" type="text" id="upper" placeholder="Upper">
+                <input class="input" style="width:100px" type="text" id="upper" placeholder="Upper">
               </div>
             </div>
           </form>
@@ -121,6 +121,7 @@
             return (bpm > val || bpm < parseInt(lower, 10));
         }).hide();
     });
+
   </script>
 
   </body>
